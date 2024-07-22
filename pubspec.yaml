@@ -1,0 +1,35 @@
+name: phonefield
+description: "Custom Phone Field"
+version: 0.0.1
+homepage: https://neupanenitesh.com.np/phonefield/
+repository: https://github.com/niteshneupane/phonefield/
+issue_tracker: https://github.com/niteshneupane/phonefield/issues/
+documentation: https://neupanenitesh.com.np/phonefield/docs/
+
+environment:
+  sdk: '>=3.4.1 <4.0.0'
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+
+# The following section is specific to Flutter packages.
+flutter:
+
+  # To add assets to your package, add an assets section, like this:
+  assets:
+    - packages/phonefield/data/countries.json
+
+screenshots:
+  - description: Example Phone Field
+    path: screenshots/1.png
+  
+  - description: Country Picker
+    path: screenshots/2.png
