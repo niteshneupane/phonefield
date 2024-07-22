@@ -11,6 +11,8 @@ import 'package:phonefield/extentions.dart';
 import 'country_code_picker.dart';
 import 'custom_text_field.dart';
 
+/// Custom phone field with country picker `PhoneField`
+///
 class PhoneField extends StatefulWidget {
   const PhoneField({
     super.key,
@@ -24,6 +26,7 @@ class PhoneField extends StatefulWidget {
     this.isPickerEnabled = true,
     this.hintStyle,
     this.labelStyle,
+    this.flagSize,
     this.style,
   });
   final String? hintText;
@@ -37,6 +40,7 @@ class PhoneField extends StatefulWidget {
   final TextStyle? hintStyle;
   final TextStyle? labelStyle;
   final TextStyle? style;
+  final double? flagSize;
 
   @override
   State<PhoneField> createState() => _PhoneFieldState();
@@ -120,6 +124,7 @@ class _PhoneFieldState extends State<PhoneField> {
             return CountryCodePicker(
               isEnabled: widget.isEnabled && widget.isPickerEnabled,
               initialCountry: pickedCountry,
+              flagSize: widget.flagSize,
               onPicked: (v) {
                 pickedCountry = v;
                 setPhonenumber(controller.text);

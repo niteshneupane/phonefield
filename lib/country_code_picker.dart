@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'countries_model.dart';
 import 'country_list_picker_page.dart';
 
@@ -16,27 +14,6 @@ class CountryListPickerPageArgs {
   });
 }
 
-// class CountryCodePicker extends HookConsumerWidget {
-// const CountryCodePicker({
-//   super.key,
-//   this.initialCountry,
-//   required this.onPicked,
-//   this.isEnabled = true,
-//   required this.countriesList,
-// });
-// final CountriesModel? initialCountry;
-// final List<CountriesModel> countriesList;
-// final Function(CountriesModel) onPicked;
-// final bool isEnabled;
-
-//   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     // final selectedCountry = useState<CountriesModel>(
-//     //     initialCountry ?? CountriesModel.defaultCountry);
-
-//   }
-// }
-
 class CountryCodePicker extends StatefulWidget {
   const CountryCodePicker({
     super.key,
@@ -44,11 +21,13 @@ class CountryCodePicker extends StatefulWidget {
     required this.onPicked,
     this.isEnabled = true,
     required this.countriesList,
+    this.flagSize = 24,
   });
   final CountriesModel? initialCountry;
   final List<CountriesModel> countriesList;
   final Function(CountriesModel) onPicked;
   final bool isEnabled;
+  final double? flagSize;
 
   @override
   State<CountryCodePicker> createState() => _CountryCodePickerState();
@@ -69,14 +48,6 @@ class _CountryCodePickerState extends State<CountryCodePicker> {
     return InkWell(
       onTap: widget.isEnabled
           ? () async {
-              // context.push(
-              //   CountryListPickerPage.routeName,
-              // extra: CountryListPickerPageArgs(
-              //   selectedCountry: selectedCountry,
-              //   onPicked: widget.onPicked,
-              //   countriesList: widget.countriesList,
-              // ),
-              // );
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) => CountryListPickerPage(
@@ -88,16 +59,6 @@ class _CountryCodePickerState extends State<CountryCodePicker> {
                   ),
                 ),
               );
-              // showDialog(
-              //   context: context,
-              //   builder: (builder) {
-              //     return CountryListDialog(
-              //       countriesList: countriesList,
-              //       selectedCountry: selectedCountry,
-              //       onPicked: onPicked,
-              //     );
-              //   },
-              // );
             }
           : null,
       child: Row(
@@ -107,7 +68,7 @@ class _CountryCodePickerState extends State<CountryCodePicker> {
             padding: const EdgeInsets.only(left: 4.0),
             child: Text(
               selectedCountry.value.flag,
-              style: const TextStyle(fontSize: 24),
+              style: TextStyle(fontSize: widget.flagSize),
             ),
           ),
           Text(selectedCountry.value.dialCode),
