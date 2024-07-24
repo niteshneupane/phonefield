@@ -21,13 +21,13 @@ class CountryCodePicker extends StatefulWidget {
     required this.onPicked,
     this.isEnabled = true,
     required this.countriesList,
-    this.flagSize = 24,
+    required this.flagSize,
   });
   final CountriesModel? initialCountry;
   final List<CountriesModel> countriesList;
   final Function(CountriesModel) onPicked;
   final bool isEnabled;
-  final double? flagSize;
+  final double flagSize;
 
   @override
   State<CountryCodePicker> createState() => _CountryCodePickerState();

@@ -51,11 +51,11 @@ extension CountryExt on List<CountriesModel> {
     return dd ?? CountriesModel.defaultCountry;
   }
 
-  CountriesModel getCountryFromCode(String countryCode) {
+  CountriesModel? getCountryFromCode(String countryCode) {
     CountriesModel? dd =
         where((e) => e.code.toLowerCase() == countryCode.toLowerCase())
             .firstOrNull;
-    return dd ?? CountriesModel.defaultCountry;
+    return dd;
   }
 
   List<CountriesModel> filter(String v) {

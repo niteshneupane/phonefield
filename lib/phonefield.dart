@@ -28,7 +28,9 @@ class PhoneField extends StatefulWidget {
     this.labelStyle,
     this.flagSize,
     this.style,
+    this.countryCode,
   });
+  final String? countryCode;
   final String? hintText;
   final String? labelText;
   final String? initialPhoneNumber;
@@ -70,7 +72,13 @@ class _PhoneFieldState extends State<PhoneField> {
 
   Future<void> phoneNumberAndCode() async {
     var dd = widget.initialPhoneNumber!.countryCodeFromNumber;
-    pickedCountry = allCountriesList.getCountry(dd.$1);
+    if (widget.countryCode != null) {
+      pickedCountry =
+          allCountriesList.getCountryFromCode(widget.countryCode!) ??
+              allCountriesList.getCountry(dd.$1);
+    } else {
+      pickedCountry = allCountriesList.getCountry(dd.$1);
+    }
     controller.text = dd.$2;
     setState(() {});
   }
@@ -124,7 +132,7 @@ class _PhoneFieldState extends State<PhoneField> {
             return CountryCodePicker(
               isEnabled: widget.isEnabled && widget.isPickerEnabled,
               initialCountry: pickedCountry,
-              flagSize: widget.flagSize,
+              flagSize: widget.flagSize ?? 24,
               onPicked: (v) {
                 pickedCountry = v;
                 setPhonenumber(controller.text);

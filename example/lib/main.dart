@@ -24,7 +24,8 @@ class _MainAppState extends State<MainApp> {
         body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: PhoneField(
-            initialPhoneNumber: "+977",
+            initialPhoneNumber: "+9779817194337",
+            countryCode: "ssss",
             phoneNumber: (p0) {
               phoneNumber = p0;
               setState(() {});
