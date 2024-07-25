@@ -3,6 +3,7 @@ library phonefield;
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:phonefield/countries_model.dart';
@@ -47,14 +48,51 @@ class PhoneField extends StatefulWidget {
 
   @override
   State<PhoneField> createState() => _PhoneFieldState();
+
+  static Future<PhoneModel> getPhoneNumber(String pp) async {
+    try {
+      print("Checking for phone number $pp");
+      var dio = Dio();
+      final resp = await dio.get(
+          "https://phonenumberutils.gorkhacloud.com/phonenumberdetails",
+          queryParameters: {
+            "phoneNumber": pp,
+          });
+      var data = resp.data["data"];
+      // print("object")
+      return PhoneModel(
+        name: data["region"],
+        isValid: data["isValid"],
+        flag: data["flag"],
+        countryCode: data["regionCode"],
+        dialCode: "+${data["countryCode"]}",
+        phoneNumber: data["nationalMobileNumber"],
+        message: data["informationalMessage"],
+      );
+    } catch (e) {
+      print("$e");
+      return PhoneModel(
+        name: "",
+        flag: "",
+        isValid: false,
+        countryCode: "",
+        dialCode: "",
+        phoneNumber: "",
+        message: "The number is not valid",
+      );
+    }
+  }
 }
 
 class _PhoneFieldState extends State<PhoneField> {
   bool isFocused = false;
   TextEditingController controller = TextEditingController();
-  CountriesModel pickedCountry = CountriesModel.defaultCountry;
+  ValueNotifier<CountriesModel> selectedCountry =
+      ValueNotifier(CountriesModel.defaultCountry);
 
   List<CountriesModel> allCountriesList = [];
+
+  bool isLoading = true;
 
   Future<List<CountriesModel>> get countriesList async {
     try {
@@ -72,15 +110,33 @@ class _PhoneFieldState extends State<PhoneField> {
   }
 
   Future<void> phoneNumberAndCode() async {
-    var dd = widget.initialPhoneNumber!.countryCodeFromNumber;
-    if (widget.countryCode != null) {
-      pickedCountry =
-          allCountriesList.getCountryFromCode(widget.countryCode!) ??
-              allCountriesList.getCountry(dd.$1);
+    var dd = await PhoneField.getPhoneNumber(widget.initialPhoneNumber!);
+    print("dd ${dd.isValid}");
+    if (dd.isValid ?? false) {
+      print(dd.flag);
+      selectedCountry.value = CountriesModel(
+        id: "",
+        name: dd.name,
+        flag: dd.flag,
+        code: dd.countryCode,
+        dialCode: dd.dialCode,
+        pattern: "pattern",
+        limit: 17,
+      );
+      controller.text = dd.phoneNumber;
+      setState(() {});
     } else {
-      pickedCountry = allCountriesList.getCountry(dd.$1);
+      var dd = widget.initialPhoneNumber!.countryCodeFromNumber;
+      if (widget.countryCode != null) {
+        selectedCountry.value =
+            allCountriesList.getCountryFromCode(widget.countryCode!) ??
+                allCountriesList.getCountry(dd.$1);
+      } else {
+        selectedCountry.value = allCountriesList.getCountry(dd.$1);
+      }
+      controller.text = dd.$2;
     }
-    controller.text = dd.$2;
+    isLoading = false;
     setState(() {});
   }
 
@@ -94,6 +150,8 @@ class _PhoneFieldState extends State<PhoneField> {
     allCountriesList = await countriesList;
     if (widget.initialPhoneNumber != null) {
       await phoneNumberAndCode();
+    } else {
+      isLoading = false;
     }
     setState(() {});
   }
@@ -129,20 +187,42 @@ class _PhoneFieldState extends State<PhoneField> {
       prefixIcon: FutureBuilder<List<CountriesModel>>(
         future: countriesList,
         builder: (ctx, snapshot) {
-          if (snapshot.data != null) {
+          if (snapshot.data != null && !isLoading) {
             return CountryCodePicker(
               isEnabled: widget.isEnabled && widget.isPickerEnabled,
-              initialCountry: pickedCountry,
+              selectedCountry: selectedCountry,
               flagSize: widget.flagSize ?? 24,
               onPicked: (v) {
-                pickedCountry = v;
+                selectedCountry.value = v;
                 setPhonenumber(controller.text);
                 setState(() {});
               },
               countriesList: snapshot.data!,
             );
           }
-          return const SizedBox();
+          return Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 4.0),
+                child: SizedBox(
+                  width: widget.flagSize ?? 24,
+                ),
+              ),
+              const SizedBox(
+                width: 34,
+              ),
+              // const Icon(Icons.keyboard_arrow_down_rounded),
+              Container(
+                color: const Color(0xffCBD5E1),
+                height: 32,
+                width: 2,
+              ),
+              const SizedBox(
+                width: 10,
+              ),
+            ],
+          );
         },
       ),
     );
@@ -155,12 +235,12 @@ class _PhoneFieldState extends State<PhoneField> {
         phoneNumber = phoneNumber.replaceFirst("0", "");
       }
     }
-    String phone = pickedCountry.dialCode + phoneNumber;
+    String phone = selectedCountry.value.dialCode + phoneNumber;
     widget.phoneNumber.call(PhoneModel(
-      countryCode: pickedCountry.code,
-      dialCode: pickedCountry.dialCode,
-      flag: pickedCountry.flag,
-      name: pickedCountry.name,
+      countryCode: selectedCountry.value.code,
+      dialCode: selectedCountry.value.dialCode,
+      flag: selectedCountry.value.flag,
+      name: selectedCountry.value.name,
       phoneNumber: phone,
     ));
   }

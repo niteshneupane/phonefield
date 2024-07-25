@@ -17,13 +17,13 @@ class CountryListPickerPageArgs {
 class CountryCodePicker extends StatefulWidget {
   const CountryCodePicker({
     super.key,
-    this.initialCountry,
+    required this.selectedCountry,
     required this.onPicked,
     this.isEnabled = true,
     required this.countriesList,
     required this.flagSize,
   });
-  final CountriesModel? initialCountry;
+  final ValueNotifier<CountriesModel> selectedCountry;
   final List<CountriesModel> countriesList;
   final Function(CountriesModel) onPicked;
   final bool isEnabled;
@@ -34,15 +34,6 @@ class CountryCodePicker extends StatefulWidget {
 }
 
 class _CountryCodePickerState extends State<CountryCodePicker> {
-  late ValueNotifier<CountriesModel> selectedCountry;
-
-  @override
-  void initState() {
-    super.initState();
-    selectedCountry =
-        ValueNotifier(widget.initialCountry ?? CountriesModel.defaultCountry);
-  }
-
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -52,7 +43,7 @@ class _CountryCodePickerState extends State<CountryCodePicker> {
                 MaterialPageRoute(
                   builder: (context) => CountryListPickerPage(
                     args: CountryListPickerPageArgs(
-                      selectedCountry: selectedCountry,
+                      selectedCountry: widget.selectedCountry,
                       onPicked: widget.onPicked,
                       countriesList: widget.countriesList,
                     ),
@@ -67,11 +58,11 @@ class _CountryCodePickerState extends State<CountryCodePicker> {
           Padding(
             padding: const EdgeInsets.only(left: 4.0),
             child: Text(
-              selectedCountry.value.flag,
+              widget.selectedCountry.value.flag,
               style: TextStyle(fontSize: widget.flagSize),
             ),
           ),
-          Text(selectedCountry.value.dialCode),
+          Text(widget.selectedCountry.value.dialCode),
           const Icon(Icons.keyboard_arrow_down_rounded),
           Container(
             color: const Color(0xffCBD5E1),
