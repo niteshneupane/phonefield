@@ -27,7 +27,7 @@ class _MainAppState extends State<MainApp> {
             initialPhoneNumber: "+9779817194337",
             countryCode: "ssss",
             phoneNumber: (p0) {
-              phoneNumber = p0;
+              phoneNumber = p0.phoneNumber;
               setState(() {});
             },
           ),

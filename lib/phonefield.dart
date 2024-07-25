@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:phonefield/countries_model.dart';
 import 'package:phonefield/extentions.dart';
+import 'package:phonefield/phone_model.dart';
 
 import 'country_code_picker.dart';
 import 'custom_text_field.dart';
@@ -36,7 +37,7 @@ class PhoneField extends StatefulWidget {
   final String? initialPhoneNumber;
   final bool isFilled;
   final bool isEnabled;
-  final Function(String) phoneNumber;
+  final Function(PhoneModel) phoneNumber;
   final bool shouldExcludeInitialZero;
   final bool isPickerEnabled;
   final TextStyle? hintStyle;
@@ -155,7 +156,13 @@ class _PhoneFieldState extends State<PhoneField> {
       }
     }
     String phone = pickedCountry.dialCode + phoneNumber;
-    widget.phoneNumber.call(phone);
+    widget.phoneNumber.call(PhoneModel(
+      countryCode: pickedCountry.code,
+      dialCode: pickedCountry.dialCode,
+      flag: pickedCountry.flag,
+      name: pickedCountry.name,
+      phoneNumber: phone,
+    ));
   }
 
   bool _isNumeric(String? str) {
