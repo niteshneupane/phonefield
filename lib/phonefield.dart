@@ -31,6 +31,8 @@ class PhoneField extends StatefulWidget {
     this.flagSize,
     this.style,
     this.countryCode,
+    this.inputBorder,
+    this.focusedBorderColor,
   });
   final String? countryCode;
   final String? hintText;
@@ -45,6 +47,8 @@ class PhoneField extends StatefulWidget {
   final TextStyle? labelStyle;
   final TextStyle? style;
   final double? flagSize;
+  final OutlineInputBorder? inputBorder;
+  final Color? focusedBorderColor;
 
   @override
   State<PhoneField> createState() => _PhoneFieldState();
@@ -177,6 +181,8 @@ class _PhoneFieldState extends State<PhoneField> {
       hintStyle: widget.hintStyle,
       labelStyle: widget.labelStyle,
       textStyle: widget.style,
+      inputBorder: widget.inputBorder,
+      focusedBorderColor: widget.focusedBorderColor,
       hintText: widget.hintText ?? "Enter Your Phone Number",
       validator: (String? input) {
         if (input!.isEmpty) {

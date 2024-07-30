@@ -13,3 +13,7 @@
 
 ## 0.0.4
 * Added focus on textfield after country selected
+
+## 0.0.5
+* Added border customization
+* Focus color

@@ -39,10 +39,13 @@ class CustomTextField extends StatefulWidget {
 
   final Color? focusedBorderColor;
 
+  final OutlineInputBorder? inputBorder;
+
   const CustomTextField({
     super.key,
     this.focusNode,
     this.labelStyle,
+    this.inputBorder,
     this.controller,
     this.maxLength,
     this.labelText,
@@ -85,10 +88,11 @@ class _CustomTextFieldState extends State<CustomTextField> {
 
   @override
   Widget build(BuildContext context) {
-    var outlineInputBorder = OutlineInputBorder(
-      borderSide: const BorderSide(color: Color(0xffCBD5E1)),
-      borderRadius: BorderRadius.circular(widget.borderRadius ?? 10.0),
-    );
+    var outlineInputBorder = widget.inputBorder ??
+        OutlineInputBorder(
+          borderSide: const BorderSide(color: Color(0xffCBD5E1)),
+          borderRadius: BorderRadius.circular(widget.borderRadius ?? 10.0),
+        );
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
