@@ -85,7 +85,8 @@ class PhoneField extends StatefulWidget {
 }
 
 class _PhoneFieldState extends State<PhoneField> {
-  bool isFocused = false;
+  late FocusNode myFocusNode;
+
   TextEditingController controller = TextEditingController();
   ValueNotifier<CountriesModel> selectedCountry =
       ValueNotifier(CountriesModel.defaultCountry);
@@ -147,6 +148,8 @@ class _PhoneFieldState extends State<PhoneField> {
   }
 
   void init() async {
+    myFocusNode = FocusNode();
+
     allCountriesList = await countriesList;
     if (widget.initialPhoneNumber != null) {
       await phoneNumberAndCode();
@@ -157,8 +160,16 @@ class _PhoneFieldState extends State<PhoneField> {
   }
 
   @override
+  void dispose() {
+    myFocusNode.dispose();
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return CustomTextField(
+      focusNode: myFocusNode,
       labelText: widget.labelText,
       controller: controller,
       isFilled: widget.isFilled,
@@ -193,6 +204,7 @@ class _PhoneFieldState extends State<PhoneField> {
               selectedCountry: selectedCountry,
               flagSize: widget.flagSize ?? 24,
               onPicked: (v) {
+                myFocusNode.requestFocus();
                 selectedCountry.value = v;
                 setPhonenumber(controller.text);
                 setState(() {});
