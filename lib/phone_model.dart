@@ -16,4 +16,8 @@ class PhoneModel {
     required this.phoneNumber,
     this.message,
   });
+
+  String get phoneNumberWithCode {
+    return dialCode + phoneNumber;
+  }
 }

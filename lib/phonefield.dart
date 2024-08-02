@@ -23,7 +23,7 @@ class PhoneField extends StatefulWidget {
     this.initialPhoneNumber,
     this.isFilled = false,
     this.isEnabled = true,
-    required this.phoneNumber,
+    required this.onChanged,
     this.shouldExcludeInitialZero = false,
     this.isPickerEnabled = true,
     this.hintStyle,
@@ -45,7 +45,7 @@ class PhoneField extends StatefulWidget {
   final String? initialPhoneNumber;
   final bool isFilled;
   final bool isEnabled;
-  final Function(PhoneModel) phoneNumber;
+  final Function(PhoneModel) onChanged;
   final bool shouldExcludeInitialZero;
   final bool isPickerEnabled;
   final TextStyle? hintStyle;
@@ -139,7 +139,7 @@ class _PhoneFieldState extends State<PhoneField> {
         pattern: "pattern",
         limit: 17,
       );
-      controller.text = dd.phoneNumber;
+      controller.text = dd.phoneNumberWithCode;
       setState(() {});
     } else {
       var dd = widget.initialPhoneNumber!.countryCodeFromNumber;
@@ -269,13 +269,13 @@ class _PhoneFieldState extends State<PhoneField> {
         phoneNumber = phoneNumber.replaceFirst("0", "");
       }
     }
-    String phone = selectedCountry.value.dialCode + phoneNumber;
-    widget.phoneNumber.call(PhoneModel(
+    // String phone = selectedCountry.value.dialCode + phoneNumber;
+    widget.onChanged.call(PhoneModel(
       countryCode: selectedCountry.value.code,
       dialCode: selectedCountry.value.dialCode,
       flag: selectedCountry.value.flag,
       name: selectedCountry.value.name,
-      phoneNumber: phone,
+      phoneNumber: phoneNumber,
     ));
   }
 
