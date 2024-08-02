@@ -20,3 +20,6 @@
 
 ## 0.0.6
 * removed dropdown btn is picker not enabled
+
+## 0.0.7
+* added spacing after flag
