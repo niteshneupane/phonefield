@@ -22,12 +22,14 @@ class CountryCodePicker extends StatefulWidget {
     this.isEnabled = true,
     required this.countriesList,
     required this.flagSize,
+    required this.leftPadding,
   });
   final ValueNotifier<CountriesModel> selectedCountry;
   final List<CountriesModel> countriesList;
   final Function(CountriesModel) onPicked;
   final bool isEnabled;
   final double flagSize;
+  final double leftPadding;
 
   @override
   State<CountryCodePicker> createState() => _CountryCodePickerState();
@@ -56,7 +58,7 @@ class _CountryCodePickerState extends State<CountryCodePicker> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 4.0),
+            padding: EdgeInsets.only(left: widget.leftPadding),
             child: Text(
               widget.selectedCountry.value.flag,
               style: TextStyle(fontSize: widget.flagSize),

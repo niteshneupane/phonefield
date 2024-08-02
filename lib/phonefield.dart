@@ -33,6 +33,8 @@ class PhoneField extends StatefulWidget {
     this.countryCode,
     this.inputBorder,
     this.focusedBorderColor,
+    this.leftPadding = 4,
+    this.contentPadding,
   });
   final String? countryCode;
   final String? hintText;
@@ -49,6 +51,8 @@ class PhoneField extends StatefulWidget {
   final double? flagSize;
   final OutlineInputBorder? inputBorder;
   final Color? focusedBorderColor;
+  final double leftPadding;
+  final EdgeInsets? contentPadding;
 
   @override
   State<PhoneField> createState() => _PhoneFieldState();
@@ -182,6 +186,7 @@ class _PhoneFieldState extends State<PhoneField> {
       labelStyle: widget.labelStyle,
       textStyle: widget.style,
       inputBorder: widget.inputBorder,
+      contentPadding: widget.contentPadding,
       focusedBorderColor: widget.focusedBorderColor,
       hintText: widget.hintText ?? "Enter Your Phone Number",
       validator: (String? input) {
@@ -209,6 +214,7 @@ class _PhoneFieldState extends State<PhoneField> {
               isEnabled: widget.isEnabled && widget.isPickerEnabled,
               selectedCountry: selectedCountry,
               flagSize: widget.flagSize ?? 24,
+              leftPadding: widget.leftPadding,
               onPicked: (v) {
                 myFocusNode.requestFocus();
                 selectedCountry.value = v;
