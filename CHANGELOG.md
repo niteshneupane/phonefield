@@ -28,3 +28,6 @@
 * left padding
 * error border
 * content padding
+
+## 0.0.9
+* error style and maxline
