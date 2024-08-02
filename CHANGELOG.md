@@ -23,3 +23,8 @@
 
 ## 0.0.7
 * added spacing after flag
+
+## 0.0.8
+* left padding
+* error border
+* content padding

@@ -40,6 +40,7 @@ class CustomTextField extends StatefulWidget {
   final Color? focusedBorderColor;
 
   final OutlineInputBorder? inputBorder;
+  final OutlineInputBorder? errorBorder;
 
   const CustomTextField({
     super.key,
@@ -77,6 +78,7 @@ class CustomTextField extends StatefulWidget {
     this.textStyle,
     this.minPrefixWidth = 70,
     this.focusedBorderColor,
+    this.errorBorder,
   });
 
   @override
@@ -141,9 +143,10 @@ class _CustomTextFieldState extends State<CustomTextField> {
               borderSide: BorderSide(
                   color: widget.focusedBorderColor ?? const Color(0xffCBD5E1)),
             ),
-            errorBorder: outlineInputBorder.copyWith(
-              borderSide: const BorderSide(color: Colors.red),
-            ),
+            errorBorder: widget.errorBorder ??
+                outlineInputBorder.copyWith(
+                  borderSide: const BorderSide(color: Colors.red),
+                ),
             disabledBorder: outlineInputBorder,
             hintText: widget.hintText,
             hintStyle: widget.hintStyle ??

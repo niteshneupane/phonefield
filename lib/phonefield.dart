@@ -35,6 +35,7 @@ class PhoneField extends StatefulWidget {
     this.focusedBorderColor,
     this.leftPadding = 4,
     this.contentPadding,
+    this.errorBorder,
   });
   final String? countryCode;
   final String? hintText;
@@ -53,6 +54,7 @@ class PhoneField extends StatefulWidget {
   final Color? focusedBorderColor;
   final double leftPadding;
   final EdgeInsets? contentPadding;
+  final OutlineInputBorder? errorBorder;
 
   @override
   State<PhoneField> createState() => _PhoneFieldState();
@@ -181,6 +183,7 @@ class _PhoneFieldState extends State<PhoneField> {
       labelText: widget.labelText,
       controller: controller,
       isFilled: widget.isFilled,
+      errorBorder: widget.errorBorder,
       readOnly: !widget.isEnabled,
       hintStyle: widget.hintStyle,
       labelStyle: widget.labelStyle,
