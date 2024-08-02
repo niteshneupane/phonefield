@@ -41,6 +41,8 @@ class CustomTextField extends StatefulWidget {
 
   final OutlineInputBorder? inputBorder;
   final OutlineInputBorder? errorBorder;
+  final TextStyle? errorStyle;
+  final int? errorMaxlines;
 
   const CustomTextField({
     super.key,
@@ -79,6 +81,8 @@ class CustomTextField extends StatefulWidget {
     this.minPrefixWidth = 70,
     this.focusedBorderColor,
     this.errorBorder,
+    this.errorStyle,
+    this.errorMaxlines,
   });
 
   @override
@@ -136,7 +140,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             prefixText: widget.prefixText,
             prefixStyle: const TextStyle(fontSize: 16),
             prefixIconConstraints: widget.prefixIconConstraints,
-            errorMaxLines: 2,
+            errorMaxLines: widget.errorMaxlines,
             border: outlineInputBorder,
             enabledBorder: outlineInputBorder,
             focusedBorder: outlineInputBorder.copyWith(
@@ -147,6 +151,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 outlineInputBorder.copyWith(
                   borderSide: const BorderSide(color: Colors.red),
                 ),
+            errorStyle: widget.errorStyle,
             disabledBorder: outlineInputBorder,
             hintText: widget.hintText,
             hintStyle: widget.hintStyle ??
