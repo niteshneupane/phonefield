@@ -17,3 +17,6 @@
 ## 0.0.5
 * Added border customization
 * Focus color
+
+## 0.0.6
+* removed dropdown btn is picker not enabled

@@ -63,7 +63,12 @@ class _CountryCodePickerState extends State<CountryCodePicker> {
             ),
           ),
           Text(widget.selectedCountry.value.dialCode),
-          const Icon(Icons.keyboard_arrow_down_rounded),
+          if (widget.isEnabled)
+            const Icon(Icons.keyboard_arrow_down_rounded)
+          else
+            const SizedBox(
+              width: 10,
+            ),
           Container(
             color: const Color(0xffCBD5E1),
             height: 32,
