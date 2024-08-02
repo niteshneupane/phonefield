@@ -31,3 +31,7 @@
 
 ## 0.0.9
 * error style and maxline
+
+## 0.0.10
+* changed phonenumber function to onChanged
+* added phonenumber and completePhoneNumberwith dial code
