@@ -23,7 +23,7 @@ To use this package, add `phonefield` to your `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  phonefield: ^0.0.10
+  phonefield: ^0.0.11
 ```
 
 
@@ -37,7 +37,7 @@ Check out the [example](https://github.com/niteshneupane/phonefield/tree/main/ex
 ```dart
 PhoneField(
     initialPhoneNumber: "+977",
-    phoneNumber: (p0) {
+    onChanged: (p0) {
         phoneNumber = p0;
         setState(() {});
         },

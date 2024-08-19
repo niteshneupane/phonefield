@@ -35,3 +35,7 @@
 ## 0.0.10
 * changed phonenumber function to onChanged
 * added phonenumber and completePhoneNumberwith dial code
+
+
+## 0.0.11
+* disabled color

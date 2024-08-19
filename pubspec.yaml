@@ -1,6 +1,6 @@
 name: phonefield
 description: "The PhoneField package offers easy phone number input with validation, formatting, and internationalization support, ensuring accurate phone number handling."
-version: 0.0.10
+version: 0.0.11
 homepage: https://neupanenitesh.com.np/phonefield/
 repository: https://github.com/niteshneupane/phonefield/
 issue_tracker: https://github.com/niteshneupane/phonefield/issues/
