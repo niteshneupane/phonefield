@@ -61,16 +61,25 @@ class _CountryCodePickerState extends State<CountryCodePicker> {
             padding: EdgeInsets.only(left: widget.leftPadding),
             child: Text(
               widget.selectedCountry.value.flag,
-              style: TextStyle(fontSize: widget.flagSize),
+              style: TextStyle(
+                fontSize: widget.flagSize,
+              ),
             ),
           ),
           if (!widget.isEnabled)
             const SizedBox(
               width: 4,
             ),
-          Text(widget.selectedCountry.value.dialCode),
+          Text(
+            widget.selectedCountry.value.dialCode,
+            style: TextStyle(
+                color: !widget.isEnabled ? Colors.grey : Colors.black),
+          ),
           if (widget.isEnabled)
-            const Icon(Icons.keyboard_arrow_down_rounded)
+            Icon(
+              Icons.keyboard_arrow_down_rounded,
+              color: !widget.isEnabled ? Colors.grey : Colors.black,
+            )
           else
             const SizedBox(
               width: 10,

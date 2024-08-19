@@ -139,7 +139,8 @@ class _PhoneFieldState extends State<PhoneField> {
         pattern: "pattern",
         limit: 17,
       );
-      controller.text = dd.phoneNumberWithCode;
+      log("\x1B[31m One \x1B[0m");
+      controller.text = dd.phoneNumber;
       setState(() {});
     } else {
       var dd = widget.initialPhoneNumber!.countryCodeFromNumber;
@@ -150,6 +151,8 @@ class _PhoneFieldState extends State<PhoneField> {
       } else {
         selectedCountry.value = allCountriesList.getCountry(dd.$1);
       }
+      log("\x1B[31m Two \x1B[0m");
+
       controller.text = dd.$2;
     }
     isLoading = false;

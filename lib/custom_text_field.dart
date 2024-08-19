@@ -121,6 +121,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           textAlign: widget.textAlign ?? TextAlign.start,
           initialValue: widget.initialValue,
           readOnly: widget.readOnly,
+          enabled: !widget.readOnly,
           inputFormatters: widget.inputFormatters,
           keyboardType: widget.keyboardType,
           autovalidateMode: widget.autoValidateMode,
