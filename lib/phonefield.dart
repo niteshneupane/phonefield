@@ -38,7 +38,6 @@ class PhoneField extends StatefulWidget {
     this.errorBorder,
     this.errorStyle,
     this.errorMaxlines,
-    this.readOnly = false,
   });
   final String? countryCode;
   final String? hintText;
@@ -58,7 +57,7 @@ class PhoneField extends StatefulWidget {
   final double leftPadding;
   final EdgeInsets? contentPadding;
   final OutlineInputBorder? errorBorder;
-  final bool? readOnly;
+
   final TextStyle? errorStyle;
   final int? errorMaxlines;
 
@@ -140,7 +139,8 @@ class _PhoneFieldState extends State<PhoneField> {
         pattern: "pattern",
         limit: 17,
       );
-      controller.text = dd.phoneNumberWithCode;
+      log("\x1B[31m One \x1B[0m");
+      controller.text = dd.phoneNumber;
       setState(() {});
     } else {
       var dd = widget.initialPhoneNumber!.countryCodeFromNumber;
@@ -151,6 +151,8 @@ class _PhoneFieldState extends State<PhoneField> {
       } else {
         selectedCountry.value = allCountriesList.getCountry(dd.$1);
       }
+      log("\x1B[31m Two \x1B[0m");
+
       controller.text = dd.$2;
     }
     isLoading = false;
@@ -190,12 +192,10 @@ class _PhoneFieldState extends State<PhoneField> {
       controller: controller,
       isFilled: widget.isFilled,
       errorBorder: widget.errorBorder,
-      readOnly: widget.readOnly!,
+      readOnly: !widget.isEnabled,
       hintStyle: widget.hintStyle,
       labelStyle: widget.labelStyle,
-      textStyle: widget.readOnly == true
-          ? const TextStyle(color: Colors.grey)
-          : widget.style,
+      textStyle: widget.style,
       errorMaxlines: widget.errorMaxlines,
       errorStyle: widget.errorStyle,
       inputBorder: widget.inputBorder,
@@ -224,7 +224,6 @@ class _PhoneFieldState extends State<PhoneField> {
         builder: (ctx, snapshot) {
           if (snapshot.data != null && !isLoading) {
             return CountryCodePicker(
-              readOnly: widget.readOnly,
               isEnabled: widget.isEnabled && widget.isPickerEnabled,
               selectedCountry: selectedCountry,
               flagSize: widget.flagSize ?? 24,

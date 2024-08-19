@@ -24,12 +24,12 @@ class _MainAppState extends State<MainApp> {
         body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: PhoneField(
-            readOnly: true,
-            // initialPhoneNumber: "+9779817194337",
-            initialPhoneNumber: "+17785554321",
+            isEnabled: false,
+            initialPhoneNumber: "+9779817194337",
+            // initialPhoneNumber: "+17785554321",
 
             onChanged: (p0) {
-              phoneNumber = p0.phoneNumber;
+              phoneNumber = p0.phoneNumberWithCode;
               setState(() {});
             },
           ),
