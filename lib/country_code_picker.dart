@@ -23,6 +23,7 @@ class CountryCodePicker extends StatefulWidget {
     required this.countriesList,
     required this.flagSize,
     required this.leftPadding,
+    this.readOnly,
   });
   final ValueNotifier<CountriesModel> selectedCountry;
   final List<CountriesModel> countriesList;
@@ -30,6 +31,7 @@ class CountryCodePicker extends StatefulWidget {
   final bool isEnabled;
   final double flagSize;
   final double leftPadding;
+  final bool? readOnly;
 
   @override
   State<CountryCodePicker> createState() => _CountryCodePickerState();
@@ -68,9 +70,16 @@ class _CountryCodePickerState extends State<CountryCodePicker> {
             const SizedBox(
               width: 4,
             ),
-          Text(widget.selectedCountry.value.dialCode),
+          Text(
+            widget.selectedCountry.value.dialCode,
+            style: TextStyle(
+                color: widget.readOnly == true ? Colors.grey : Colors.black),
+          ),
           if (widget.isEnabled)
-            const Icon(Icons.keyboard_arrow_down_rounded)
+            Icon(
+              Icons.keyboard_arrow_down_rounded,
+              color: widget.readOnly == true ? Colors.grey : Colors.black,
+            )
           else
             const SizedBox(
               width: 10,

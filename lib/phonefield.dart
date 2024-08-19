@@ -38,6 +38,7 @@ class PhoneField extends StatefulWidget {
     this.errorBorder,
     this.errorStyle,
     this.errorMaxlines,
+    this.readOnly = false,
   });
   final String? countryCode;
   final String? hintText;
@@ -57,7 +58,7 @@ class PhoneField extends StatefulWidget {
   final double leftPadding;
   final EdgeInsets? contentPadding;
   final OutlineInputBorder? errorBorder;
-
+  final bool? readOnly;
   final TextStyle? errorStyle;
   final int? errorMaxlines;
 
@@ -189,10 +190,12 @@ class _PhoneFieldState extends State<PhoneField> {
       controller: controller,
       isFilled: widget.isFilled,
       errorBorder: widget.errorBorder,
-      readOnly: !widget.isEnabled,
+      readOnly: widget.readOnly!,
       hintStyle: widget.hintStyle,
       labelStyle: widget.labelStyle,
-      textStyle: widget.style,
+      textStyle: widget.readOnly == true
+          ? const TextStyle(color: Colors.grey)
+          : widget.style,
       errorMaxlines: widget.errorMaxlines,
       errorStyle: widget.errorStyle,
       inputBorder: widget.inputBorder,
@@ -221,6 +224,7 @@ class _PhoneFieldState extends State<PhoneField> {
         builder: (ctx, snapshot) {
           if (snapshot.data != null && !isLoading) {
             return CountryCodePicker(
+              readOnly: widget.readOnly,
               isEnabled: widget.isEnabled && widget.isPickerEnabled,
               selectedCountry: selectedCountry,
               flagSize: widget.flagSize ?? 24,
