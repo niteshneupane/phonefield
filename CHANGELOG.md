@@ -39,3 +39,7 @@
 
 ## 0.0.11
 * disabled color
+
+
+## 0.0.12
+* validation and timeout in api
