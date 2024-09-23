@@ -2,6 +2,7 @@ library phonefield;
 
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -38,63 +39,113 @@ class PhoneField extends StatefulWidget {
     this.errorBorder,
     this.errorStyle,
     this.errorMaxlines,
+    this.validator,
   });
+
+  ///
+
   final String? countryCode;
+
+  ///
   final String? hintText;
+
+  ///
   final String? labelText;
+
+  ///
   final String? initialPhoneNumber;
+
+  ///
   final bool isFilled;
+
+  ///
   final bool isEnabled;
+
+  ///
   final Function(PhoneModel) onChanged;
+
+  ///
   final bool shouldExcludeInitialZero;
+
+  ///
   final bool isPickerEnabled;
+
+  ///
   final TextStyle? hintStyle;
+
+  ///
   final TextStyle? labelStyle;
+
+  ///
   final TextStyle? style;
+
+  ///
   final double? flagSize;
+
+  ///
   final OutlineInputBorder? inputBorder;
+
+  ///
   final Color? focusedBorderColor;
+
+  ///
   final double leftPadding;
+
+  ///
   final EdgeInsets? contentPadding;
+
+  ///
   final OutlineInputBorder? errorBorder;
 
+  ///
   final TextStyle? errorStyle;
+
+  ///
   final int? errorMaxlines;
+
+  ///
+  final String? Function(String?)? validator;
 
   @override
   State<PhoneField> createState() => _PhoneFieldState();
 
-  static Future<PhoneModel> getPhoneNumber(String pp) async {
+  ///
+  static Future<PhoneModel?> getPhoneNumber(String pp) async {
     try {
       print("Checking for phone number $pp");
       var dio = Dio();
       final resp = await dio.get(
-          "https://phonenumberutils.gorkhacloud.com/phonenumberdetails",
-          queryParameters: {
-            "phoneNumber": pp,
-          });
+        "https://phonenumberutils.gorkhacloud.com/phonenumberdetails",
+        options: Options(
+          receiveTimeout: const Duration(seconds: 2),
+          sendTimeout: const Duration(seconds: 2),
+        ),
+        queryParameters: {
+          "phoneNumber": pp,
+        },
+      );
       var data = resp.data["data"];
-      // print("object")
-      return PhoneModel(
-        name: data["region"],
-        isValid: data["isValid"],
-        flag: data["flag"],
-        countryCode: data["regionCode"],
-        dialCode: "+${data["countryCode"]}",
-        phoneNumber: data["nationalMobileNumber"],
-        message: data["informationalMessage"],
-      );
-    } catch (e) {
+      print("object ${resp.statusCode}");
+
+      if (resp.statusCode == 200) {
+        print("\x1B[32m SUCCESSSSSS \x1B[0m");
+        return PhoneModel(
+          name: data["region"] ?? "",
+          isValid: data["isValid"],
+          flag: data["flag"] ?? "",
+          countryCode: data["regionCode"] ?? "",
+          dialCode: "+${data["countryCode"]}",
+          phoneNumber: data["nationalMobileNumber"] ?? "",
+          message: data["informationalMessage"] ?? "-",
+        );
+      }
+      return null;
+    } on DioException catch (e) {
       print("$e");
-      return PhoneModel(
-        name: "",
-        flag: "",
-        isValid: false,
-        countryCode: "",
-        dialCode: "",
-        phoneNumber: "",
-        message: "The number is not valid",
-      );
+      return null;
+    } on SocketException catch (e) {
+      log("\x1B[31m $e \x1B[0m");
+      return null;
     }
   }
 }
@@ -127,12 +178,10 @@ class _PhoneFieldState extends State<PhoneField> {
 
   Future<void> phoneNumberAndCode() async {
     var dd = await PhoneField.getPhoneNumber(widget.initialPhoneNumber!);
-    print("dd ${dd.isValid}");
-    if (dd.isValid ?? false) {
-      print(dd.flag);
+    if (dd?.isValid ?? false) {
       selectedCountry.value = CountriesModel(
         id: "",
-        name: dd.name,
+        name: dd!.name,
         flag: dd.flag,
         code: dd.countryCode,
         dialCode: dd.dialCode,
@@ -202,16 +251,17 @@ class _PhoneFieldState extends State<PhoneField> {
       contentPadding: widget.contentPadding,
       focusedBorderColor: widget.focusedBorderColor,
       hintText: widget.hintText ?? "Enter Your Phone Number",
-      validator: (String? input) {
-        if (input!.isEmpty) {
-          return "Enter a phone number";
-        }
-        bool isValid = _isNumeric(input);
-        if (!isValid) {
-          return "Enter a valid phone number";
-        }
-        return null;
-      },
+      validator: widget.validator ??
+          (String? input) {
+            if (input!.isEmpty) {
+              return "Enter a phone number";
+            }
+            bool isValid = _isNumeric(input);
+            if (!isValid) {
+              return "Enter a valid phone number";
+            }
+            return null;
+          },
       onChanged: (v) {
         setPhonenumber(v);
       },
