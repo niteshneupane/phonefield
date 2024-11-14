@@ -14,9 +14,13 @@ import 'package:phonefield/phone_model.dart';
 import 'country_code_picker.dart';
 import 'custom_text_field.dart';
 
+export './country_picker.dart';
+export './state_picker.dart';
+
 /// Custom phone field with country picker `PhoneField`
 ///
 class PhoneField extends StatefulWidget {
+  ///
   const PhoneField({
     super.key,
     this.hintText,

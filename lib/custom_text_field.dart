@@ -1,49 +1,125 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+///
 class CustomTextField extends StatefulWidget {
+  ///
   final TextEditingController? controller;
+
+  ///
   final bool isPassword;
+
+  ///
   final String? hintText;
+
+  ///
   final String? labelText;
 
+  ///
   final String? Function(String?)? validator;
+
+  ///
   final TextInputType? keyboardType;
+
+  ///
   final VoidCallback? onTap;
+
+  ///
   final bool readOnly;
+
+  ///
   final int? maxLines;
+
+  ///
   final EdgeInsets? contentPadding;
+
+  ///
   final Widget? suffixIcon;
+
+  ///
   final Widget? prefixIcon;
+
+  ///
   final String? prefixText;
+
+  ///
   final TextStyle? hintStyle;
+
+  ///
   final bool isFilled;
+
+  ///
   final TextAlign? textAlign;
+
+  ///
   final double? borderRadius;
+
+  ///
   final Function(String)? onSubmitted;
+
+  ///
   final Function(String)? onChanged;
+
+  ///
   final String? initialValue;
+
+  ///
   final bool? autoFocus;
+
+  ///
   final TextInputAction? textInputAction;
+
+  ///
   final Color? titleColor;
+
+  ///
   final int? maxLength;
+
+  ///
   final AutovalidateMode? autoValidateMode;
+
+  ///
   final FocusNode? focusNode;
+
+  ///
   final List<TextInputFormatter>? inputFormatters;
+
+  ///
   final BoxConstraints? prefixIconConstraints;
+
+  ///
   final bool isNewStyle;
+
+  ///
   final TextStyle? textStyle;
+
+  ///
   final TextStyle? labelStyle;
+
+  ///
 
   final double minPrefixWidth;
 
+  ///
+
   final Color? focusedBorderColor;
 
+  ///
   final OutlineInputBorder? inputBorder;
+
+  ///
+
   final OutlineInputBorder? errorBorder;
+
+  ///
+
   final TextStyle? errorStyle;
+
+  ///
+
   final int? errorMaxlines;
 
+  ///
   const CustomTextField({
     super.key,
     this.focusNode,

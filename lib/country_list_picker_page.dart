@@ -4,12 +4,15 @@ import 'package:phonefield/country_code_picker.dart';
 import 'countries_model.dart';
 import 'custom_text_field.dart';
 
+///
 class CountryListPickerPage extends StatefulWidget {
+  /// constructor
   const CountryListPickerPage({super.key, required this.args});
 
   @override
   State<CountryListPickerPage> createState() => _CountryListPickerPageState();
 
+  /// args
   final CountryListPickerPageArgs args;
 }
 

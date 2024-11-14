@@ -30,13 +30,21 @@ class _MainAppState extends State<MainApp> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: PhoneField(
-                  isEnabled: false,
+                  // isEnabled: false,
                   initialPhoneNumber: "+9779817194337",
                   onChanged: (p0) {
                     phoneNumber = p0.phoneNumberWithCode;
                     setState(() {});
                   },
                 ),
+              ),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: CountryPicker(),
+              ),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: StatePicker(),
               ),
               FilledButton(
                 onPressed: () async {
