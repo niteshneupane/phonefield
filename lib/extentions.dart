@@ -1,4 +1,6 @@
+///
 extension StringManipulation on String {
+  ///
   (String, String) get countryCodeFromNumber {
     String cleanedMobile = replaceAll(' ', '').replaceAll('-', '');
 
@@ -15,5 +17,17 @@ extension StringManipulation on String {
     }
 
     return (replaced, trimmedMobile);
+  }
+
+  /// returns flag emoji
+  String get emoji {
+    try {
+      final int firstLetter = codeUnitAt(0) - 0x41 + 0x1F1E6;
+      final int secondLetter = codeUnitAt(1) - 0x41 + 0x1F1E6;
+      return String.fromCharCode(firstLetter) +
+          String.fromCharCode(secondLetter);
+    } catch (e) {
+      return this;
+    }
   }
 }

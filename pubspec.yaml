@@ -27,6 +27,8 @@ flutter:
   # To add assets to your package, add an assets section, like this:
   assets:
     - packages/phonefield/data/countries.json
+    - packages/phonefield/data/countries_state.json
+
 
 screenshots:
   - description: Example Phone Field

@@ -16,6 +16,11 @@ class _MainAppState extends State<MainApp> {
   String? phoneNumber;
   final formKey = GlobalKey<FormState>();
 
+  ({String? code, String name})? selectedCountry;
+
+  String? selectedState;
+
+  final TextEditingController stateController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -38,14 +43,33 @@ class _MainAppState extends State<MainApp> {
                   },
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: CountryPicker(),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: CountryPicker(
+                  labelText: "Country",
+                  hintText: "Select a country",
+                  onSelect: (p0) {
+                    selectedCountry = p0;
+                    setState(() {});
+                    stateController.clear();
+                  },
+                ),
               ),
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: StatePicker(),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: StatePicker(
+                  // labelText: "State",
+                  hintText: "Select a state",
+                  controller: stateController,
+                  countryCode: selectedCountry?.code,
+                  onSelect: (p0) {
+                    selectedState = p0;
+                    setState(() {});
+                  },
+                ),
               ),
+              Text("Selected Country = ${selectedCountry?.name}"),
+              Text("Selected State = $selectedState"),
               FilledButton(
                 onPressed: () async {
                   if (formKey.currentState?.validate() ?? false) {
