@@ -43,3 +43,8 @@
 
 ## 0.0.12
 * validation and timeout in api
+
+
+## 0.0.13
+* validation and timeout in api
+* added country and state picker
