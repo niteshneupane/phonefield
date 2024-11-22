@@ -2,11 +2,18 @@ import 'package:flutter/material.dart';
 import 'countries_model.dart';
 import 'country_list_picker_page.dart';
 
+///
 class CountryListPickerPageArgs {
+  ///
   final ValueNotifier<CountriesModel> selectedCountry;
+
+  ///
   final Function(CountriesModel p1) onPicked;
+
+  ///
   final List<CountriesModel> countriesList;
 
+  ///
   const CountryListPickerPageArgs({
     required this.selectedCountry,
     required this.onPicked,
@@ -14,7 +21,9 @@ class CountryListPickerPageArgs {
   });
 }
 
+///
 class CountryCodePicker extends StatefulWidget {
+  ///
   const CountryCodePicker({
     super.key,
     required this.selectedCountry,
@@ -24,11 +33,23 @@ class CountryCodePicker extends StatefulWidget {
     required this.flagSize,
     required this.leftPadding,
   });
+
+  ///
   final ValueNotifier<CountriesModel> selectedCountry;
+
+  ///
   final List<CountriesModel> countriesList;
+
+  ///
   final Function(CountriesModel) onPicked;
+
+  ///
   final bool isEnabled;
+
+  ///
   final double flagSize;
+
+  ///
   final double leftPadding;
 
   @override

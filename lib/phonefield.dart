@@ -116,7 +116,7 @@ class PhoneField extends StatefulWidget {
   ///
   static Future<PhoneModel?> getPhoneNumber(String pp) async {
     try {
-      print("Checking for phone number $pp");
+      log("Checking for phone number $pp");
       var dio = Dio();
       final resp = await dio.get(
         "https://phonenumberutils.gorkhacloud.com/phonenumberdetails",
@@ -129,10 +129,10 @@ class PhoneField extends StatefulWidget {
         },
       );
       var data = resp.data["data"];
-      print("object ${resp.statusCode}");
+      log("object ${resp.statusCode}");
 
       if (resp.statusCode == 200) {
-        print("\x1B[32m SUCCESSSSSS \x1B[0m");
+        log("\x1B[32m SUCCESSSSSS \x1B[0m");
         return PhoneModel(
           name: data["region"] ?? "",
           isValid: data["isValid"],
@@ -145,7 +145,7 @@ class PhoneField extends StatefulWidget {
       }
       return null;
     } on DioException catch (e) {
-      print("$e");
+      log("$e");
       return null;
     } on SocketException catch (e) {
       log("\x1B[31m $e \x1B[0m");
@@ -175,7 +175,7 @@ class _PhoneFieldState extends State<PhoneField> {
       }).toList());
       return newData;
     } catch (e) {
-      print("$e");
+      log("$e");
       return [];
     }
   }

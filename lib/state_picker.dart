@@ -1,8 +1,8 @@
 import 'dart:convert';
-
+import 'dart:developer';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phonefield/custom_drop_down.dart';
 
 ///
 class StatePicker extends StatefulWidget {
@@ -10,22 +10,32 @@ class StatePicker extends StatefulWidget {
   const StatePicker({
     super.key,
     required this.countryCode,
-    required this.onSelect,
-    this.hintText,
+    required this.selectedState,
+    this.prefixText,
     this.labelText,
-    this.controller,
+    this.hintText,
     this.enabled = true,
     this.validator,
+    this.isFilled = false,
+    this.focusedBorderColor,
+    this.inputBorder,
+    this.borderRadius,
+    this.contentPadding,
+    this.suffixIcon,
+    this.prefixIcon,
+    this.errorBorder,
+    this.errorStyle,
+    this.hintStyle,
   });
 
   /// country code for required state
   final String? countryCode;
 
-  /// callback
-  final void Function(String) onSelect;
+  ///
+  final ValueNotifier<String?> selectedState;
 
   ///
-  final TextEditingController? controller;
+  final String? prefixText;
 
   ///
   final String? labelText;
@@ -39,14 +49,46 @@ class StatePicker extends StatefulWidget {
   ///
   final String? Function(String?)? validator;
 
+  ///
+  final bool isFilled;
+
+  ///
+  final Color? focusedBorderColor;
+
+  ///
+  final OutlineInputBorder? inputBorder;
+
+  ///
+  final double? borderRadius;
+
+  ///
+  final EdgeInsets? contentPadding;
+
+  ///
+  final Widget? suffixIcon;
+
+  ///
+  final Widget? prefixIcon;
+
+  ///
+
+  final OutlineInputBorder? errorBorder;
+
+  ///
+
+  final TextStyle? errorStyle;
+
+  ///
+  final TextStyle? hintStyle;
+
   @override
   State<StatePicker> createState() => _StatePickerState();
 }
 
 class _StatePickerState extends State<StatePicker> {
-  List<({String name, String? code})> dataList = [];
+  List<String> dataList = [];
 
-  Future<List<({String name, String? code})>> get stateList async {
+  Future<List<String>> get stateList async {
     try {
       final String response = await rootBundle
           .loadString("packages/phonefield/data/countries_state.json");
@@ -57,12 +99,11 @@ class _StatePickerState extends State<StatePicker> {
       }).firstOrNull;
 
       return states != null
-          ? List<({String name, String? code})>.from(states["states"].map((e) {
-              return (name: e["name"], code: null);
+          ? List<String>.from(states["states"].map((e) {
+              return e["name"];
             }).toList())
           : [];
     } catch (e) {
-      print("$e");
       return [];
     }
   }
@@ -75,7 +116,7 @@ class _StatePickerState extends State<StatePicker> {
 
   init() async {
     dataList = await stateList;
-    print("OLA ${dataList.length}");
+    log("OLA ${dataList.length}");
     if (mounted) {
       setState(() {});
     }
@@ -91,19 +132,63 @@ class _StatePickerState extends State<StatePicker> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomDropDownField(
-      topOverlayPadding: widget.labelText != null ? 68 : 48,
-      leftOverlayPadding: 0,
-      isEnabled: widget.enabled,
-      dataList: dataList,
-      validator: widget.validator,
-      initialController: widget.controller,
+    var outlineInputBorder = widget.inputBorder ??
+        OutlineInputBorder(
+          borderSide: const BorderSide(color: Color(0xffCBD5E1)),
+          borderRadius: BorderRadius.circular(widget.borderRadius ?? 10.0),
+        );
+    var inputDecoration = InputDecoration(
+      filled: widget.isFilled,
+      fillColor: Colors.white,
+      hoverColor: Colors.transparent,
+      prefixText: widget.prefixText,
+      prefixStyle: const TextStyle(fontSize: 16),
+      border: outlineInputBorder,
       hintText: widget.hintText,
-      labelText: widget.labelText,
-      onSelect: (p0) {
-        print("Selected Selcet $p0");
-        widget.onSelect.call(p0.name);
+      hintStyle: widget.hintStyle ??
+          const TextStyle(
+            color: Color(0xff64748B),
+            fontSize: 14,
+          ),
+      enabledBorder: outlineInputBorder,
+      focusedBorder: outlineInputBorder.copyWith(
+        borderSide: BorderSide(
+          color: widget.focusedBorderColor ?? const Color(0xffCBD5E1),
+        ),
+      ),
+      errorBorder: widget.errorBorder ??
+          outlineInputBorder.copyWith(
+            borderSide: const BorderSide(color: Colors.red),
+          ),
+      errorStyle: widget.errorStyle,
+      disabledBorder: outlineInputBorder,
+      prefixIcon: widget.prefixIcon,
+      suffixIcon: widget.suffixIcon,
+      contentPadding: widget.contentPadding ??
+          const EdgeInsets.symmetric(
+            horizontal: 16.0,
+            vertical: 12.0,
+          ),
+    );
+    return DropdownSearch<String>(
+      items: (f, cs) => dataList,
+      selectedItem: widget.selectedState.value,
+      onChanged: (newValue) {
+        widget.selectedState.value = newValue;
       },
+      validator: widget.validator,
+      enabled: widget.enabled,
+      popupProps: PopupProps.menu(
+        showSearchBox: true,
+        searchDelay: const Duration(milliseconds: 500),
+        searchFieldProps: TextFieldProps(
+          decoration: inputDecoration.copyWith(
+            hintText: "Search",
+            prefixIcon: const Icon(Icons.search),
+          ),
+        ),
+      ),
+      decoratorProps: DropDownDecoratorProps(decoration: inputDecoration),
     );
   }
 }

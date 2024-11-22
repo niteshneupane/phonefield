@@ -52,9 +52,6 @@ class CustomTextField extends StatefulWidget {
   final TextAlign? textAlign;
 
   ///
-  final double? borderRadius;
-
-  ///
   final Function(String)? onSubmitted;
 
   ///
@@ -106,6 +103,9 @@ class CustomTextField extends StatefulWidget {
 
   ///
   final OutlineInputBorder? inputBorder;
+
+  ///
+  final double? borderRadius;
 
   ///
 

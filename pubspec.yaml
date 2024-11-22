@@ -12,6 +12,7 @@ environment:
 
 dependencies:
   dio: ^5.5.0+1
+  dropdown_search: ^6.0.1
   flutter:
     sdk: flutter
 
