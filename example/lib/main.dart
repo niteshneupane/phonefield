@@ -49,21 +49,11 @@ class MainApp extends HookWidget {
                     }
                     return null;
                   },
-                  // onSelected: (v) {
-                  //   selectedCountry = v;
-                  //   setState(() {});
-                  // },
-                  // onSelect: (p0) {
-                  //   selectedCountry = p0;
-                  //   setState(() {});
-                  //   stateController.clear();
-                  // },
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: StatePicker(
-                  // labelText: "State",
                   enabled: selectedCountry.value != null,
                   hintText: "Select a state",
                   countryCode: selectedCountry.value?.code,

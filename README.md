@@ -23,7 +23,7 @@ To use this package, add `phonefield` to your `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  phonefield: ^0.0.13
+  phonefield: ^1.0.0
 ```
 
 
@@ -42,6 +42,42 @@ PhoneField(
         setState(() {});
         },
     )
+```
+Country Picker
+```dart
+CountryPicker(
+  labelText: "Country",
+  hintText: "Select a country",
+  selectedCountry: selectedCountry,
+  onChanged: (p0) {
+    selectedState.value = null;
+  },
+  validator: (p0) {
+    if (p0 == null) {
+      return "Please select country ";
+    }
+    return null;
+  },
+),
+```
+
+
+State Picker
+```dart
+StatePicker(
+    enabled: selectedCountry.value != null,
+    hintText: "Select a state",
+    countryCode: selectedCountry.value?.code,
+    selectedState: selectedState,
+    validator: (p0) {
+      if (p0 == null || p0.isEmpty) {
+        return selectedCountry.value != null
+            ? "Please select state"
+            : "Please select country first and select state";
+      }
+      return null;
+    },
+  ),
 ```
 
 

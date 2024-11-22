@@ -48,3 +48,7 @@
 ## 0.0.13
 * validation and timeout in api
 * added country and state picker
+
+
+## 1.0.0
+* country and state picker new ui
