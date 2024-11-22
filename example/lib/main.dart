@@ -20,7 +20,7 @@ class MainApp extends HookWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text("Test"),
+          title: const Text("Example"),
         ),
         body: Form(
           key: formKey,
@@ -83,7 +83,7 @@ class MainApp extends HookWidget {
                   builder: (context, country, child) {
                     return Text("Selected Country = ${country?.name}");
                   }),
-              Text("Selected State = $selectedState"),
+              Text("Selected State = ${selectedState.value}"),
               FilledButton(
                 onPressed: () async {
                   selectedCountry.value = null;
