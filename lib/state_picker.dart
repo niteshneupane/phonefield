@@ -26,6 +26,7 @@ class StatePicker extends StatefulWidget {
     this.errorBorder,
     this.errorStyle,
     this.hintStyle,
+    this.labelStyle,
   });
 
   /// country code for required state
@@ -80,6 +81,9 @@ class StatePicker extends StatefulWidget {
 
   ///
   final TextStyle? hintStyle;
+
+  ///
+  final TextStyle? labelStyle;
 
   @override
   State<StatePicker> createState() => _StatePickerState();
@@ -170,25 +174,41 @@ class _StatePickerState extends State<StatePicker> {
             vertical: 12.0,
           ),
     );
-    return DropdownSearch<String>(
-      items: (f, cs) => dataList,
-      selectedItem: widget.selectedState.value,
-      onChanged: (newValue) {
-        widget.selectedState.value = newValue;
-      },
-      validator: widget.validator,
-      enabled: widget.enabled,
-      popupProps: PopupProps.menu(
-        showSearchBox: true,
-        searchDelay: const Duration(milliseconds: 500),
-        searchFieldProps: TextFieldProps(
-          decoration: inputDecoration.copyWith(
-            hintText: "Search",
-            prefixIcon: const Icon(Icons.search),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (widget.labelText != null)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 2),
+            child: Text(
+              widget.labelText!,
+              style: widget.labelStyle ??
+                  const TextStyle(
+                    fontWeight: FontWeight.w600,
+                  ),
+            ),
           ),
+        DropdownSearch<String>(
+          items: (f, cs) => dataList,
+          selectedItem: widget.selectedState.value,
+          onChanged: (newValue) {
+            widget.selectedState.value = newValue;
+          },
+          validator: widget.validator,
+          enabled: widget.enabled,
+          popupProps: PopupProps.menu(
+            showSearchBox: true,
+            searchDelay: const Duration(milliseconds: 500),
+            searchFieldProps: TextFieldProps(
+              decoration: inputDecoration.copyWith(
+                hintText: "Search",
+                prefixIcon: const Icon(Icons.search),
+              ),
+            ),
+          ),
+          decoratorProps: DropDownDecoratorProps(decoration: inputDecoration),
         ),
-      ),
-      decoratorProps: DropDownDecoratorProps(decoration: inputDecoration),
+      ],
     );
   }
 }

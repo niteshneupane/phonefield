@@ -52,3 +52,7 @@
 
 ## 1.0.0
 * country and state picker new ui
+
+
+## 1.0.1
+* country and state picker added labeltext

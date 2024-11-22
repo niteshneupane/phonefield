@@ -28,6 +28,7 @@ class CountryPicker extends StatefulWidget {
     this.hintStyle,
     required this.selectedCountry,
     this.onChanged,
+    this.labelStyle,
   });
 
   ///
@@ -82,6 +83,9 @@ class CountryPicker extends StatefulWidget {
 
   ///
   final TextStyle? hintStyle;
+
+  ///
+  final TextStyle? labelStyle;
 
   @override
   State<CountryPicker> createState() => _CountryPickerState();
@@ -159,38 +163,55 @@ class _CountryPickerState extends State<CountryPicker> {
             vertical: 12.0,
           ),
     );
-    return DropdownSearch<({String code, String name})>(
-      items: (f, cs) => dataList,
-      selectedItem: widget.selectedCountry.value,
-      compareFn: (item1, item2) => item1.code == item2.code,
-      onChanged: (newValue) {
-        widget.onChanged?.call(newValue);
-        widget.selectedCountry.value = newValue;
-      },
-      validator: widget.validator,
-      enabled: widget.enabled,
-      dropdownBuilder: (context, selectedItem) =>
-          selectedItem != null ? _buildText(selectedItem) : const SizedBox(),
-      popupProps: PopupProps.menu(
-        showSearchBox: true,
-        searchDelay: const Duration(milliseconds: 500),
-        itemBuilder: (context, item, isDisabled, isSelected) => ListTile(
-          leading: Text(
-            item.code.emoji,
-            style: const TextStyle(
-              fontSize: 32,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (widget.labelText != null)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 2),
+            child: Text(
+              widget.labelText!,
+              style: widget.labelStyle ??
+                  const TextStyle(
+                    fontWeight: FontWeight.w600,
+                  ),
             ),
           ),
-          title: Text(item.name),
-        ),
-        searchFieldProps: TextFieldProps(
-          decoration: inputDecoration.copyWith(
-            hintText: "Search",
-            prefixIcon: const Icon(Icons.search),
+        DropdownSearch<({String code, String name})>(
+          items: (f, cs) => dataList,
+          selectedItem: widget.selectedCountry.value,
+          compareFn: (item1, item2) => item1.code == item2.code,
+          onChanged: (newValue) {
+            widget.onChanged?.call(newValue);
+            widget.selectedCountry.value = newValue;
+          },
+          validator: widget.validator,
+          enabled: widget.enabled,
+          dropdownBuilder: (context, selectedItem) => selectedItem != null
+              ? _buildText(selectedItem)
+              : const SizedBox(),
+          popupProps: PopupProps.menu(
+            showSearchBox: true,
+            searchDelay: const Duration(milliseconds: 500),
+            itemBuilder: (context, item, isDisabled, isSelected) => ListTile(
+              leading: Text(
+                item.code.emoji,
+                style: const TextStyle(
+                  fontSize: 32,
+                ),
+              ),
+              title: Text(item.name),
+            ),
+            searchFieldProps: TextFieldProps(
+              decoration: inputDecoration.copyWith(
+                hintText: "Search",
+                prefixIcon: const Icon(Icons.search),
+              ),
+            ),
           ),
+          decoratorProps: DropDownDecoratorProps(decoration: inputDecoration),
         ),
-      ),
-      decoratorProps: DropDownDecoratorProps(decoration: inputDecoration),
+      ],
     );
   }
 

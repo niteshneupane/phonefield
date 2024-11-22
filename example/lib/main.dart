@@ -54,6 +54,7 @@ class MainApp extends HookWidget {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: StatePicker(
+                  labelText: "State",
                   enabled: selectedCountry.value != null,
                   hintText: "Select a state",
                   countryCode: selectedCountry.value?.code,
