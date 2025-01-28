@@ -56,3 +56,6 @@
 
 ## 1.0.1
 * country and state picker added labeltext
+
+## 1.0.2
+* bug fixes 

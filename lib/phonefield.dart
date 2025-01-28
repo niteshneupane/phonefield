@@ -150,6 +150,9 @@ class PhoneField extends StatefulWidget {
     } on SocketException catch (e) {
       log("\x1B[31m $e \x1B[0m");
       return null;
+    } catch (e) {
+      log("\x1B[31m $e \x1B[0m");
+      return null;
     }
   }
 }
