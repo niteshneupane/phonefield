@@ -172,7 +172,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
   Widget build(BuildContext context) {
     var outlineInputBorder = widget.inputBorder ??
         OutlineInputBorder(
-          borderSide: const BorderSide(color: Color(0xffCBD5E1)),
+          borderSide: BorderSide(color: Theme.of(context).dividerColor),
           borderRadius: BorderRadius.circular(widget.borderRadius ?? 10.0),
         );
 
@@ -191,7 +191,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             ),
           ),
         TextFormField(
-          cursorColor: Colors.black,
+          cursorColor: Theme.of(context).colorScheme.onSurface,
           maxLength: widget.maxLength,
           focusNode: widget.focusNode,
           textAlign: widget.textAlign ?? TextAlign.start,
@@ -232,8 +232,11 @@ class _CustomTextFieldState extends State<CustomTextField> {
             disabledBorder: outlineInputBorder,
             hintText: widget.hintText,
             hintStyle: widget.hintStyle ??
-                const TextStyle(
-                  color: Color(0xff64748B),
+                TextStyle(
+                  color: Theme.of(context)
+                      .colorScheme
+                      .onSurface
+                      .withValues(alpha: 0.5),
                   fontSize: 14,
                 ),
             prefixIcon: (widget.isNewStyle && widget.labelText != null)

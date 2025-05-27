@@ -59,3 +59,6 @@
 
 ## 1.0.2
 * bug fixes 
+
+## 1.0.3
+* dark theme support

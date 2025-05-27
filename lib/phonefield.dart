@@ -306,9 +306,8 @@ class _PhoneFieldState extends State<PhoneField> {
               const SizedBox(
                 width: 34,
               ),
-              // const Icon(Icons.keyboard_arrow_down_rounded),
               Container(
-                color: const Color(0xffCBD5E1),
+                color: Theme.of(context).dividerColor,
                 height: 32,
                 width: 2,
               ),

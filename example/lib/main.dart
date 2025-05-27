@@ -18,6 +18,8 @@ class MainApp extends HookWidget {
 
     final formKey = useMemoized(() => GlobalKey<FormState>());
     return MaterialApp(
+      themeMode: ThemeMode.dark,
+      darkTheme: ThemeData.dark(),
       home: Scaffold(
         appBar: AppBar(
           title: const Text("Example"),

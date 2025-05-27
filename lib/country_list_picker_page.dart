@@ -52,9 +52,7 @@ class _CountryListPickerPageState extends State<CountryListPickerPage> {
           ),
           Expanded(
             child: ListView.separated(
-              separatorBuilder: (context, index) => const Divider(
-                color: Color(0xffCBD5E1),
-              ),
+              separatorBuilder: (context, index) => const Divider(),
               itemCount: filteredCountryList.length,
               padding: const EdgeInsets.symmetric(
                 horizontal: 16,
@@ -82,8 +80,11 @@ class _CountryListPickerPageState extends State<CountryListPickerPage> {
                       Expanded(child: Text(model.name)),
                       Text(
                         model.dialCode,
-                        style: const TextStyle(
-                          color: Colors.blueGrey,
+                        style: TextStyle(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onSurface
+                              .withValues(alpha: 0.5),
                         ),
                       )
                     ],

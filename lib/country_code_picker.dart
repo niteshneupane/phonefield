@@ -94,19 +94,24 @@ class _CountryCodePickerState extends State<CountryCodePicker> {
           Text(
             widget.selectedCountry.value.dialCode,
             style: TextStyle(
-                color: !widget.isEnabled ? Colors.grey : Colors.black),
+              color: !widget.isEnabled
+                  ? Colors.grey
+                  : Theme.of(context).colorScheme.onSurface,
+            ),
           ),
           if (widget.isEnabled)
             Icon(
               Icons.keyboard_arrow_down_rounded,
-              color: !widget.isEnabled ? Colors.grey : Colors.black,
+              color: !widget.isEnabled
+                  ? Colors.grey
+                  : Theme.of(context).colorScheme.onSurface,
             )
           else
             const SizedBox(
               width: 10,
             ),
           Container(
-            color: const Color(0xffCBD5E1),
+            color: Theme.of(context).dividerColor,
             height: 32,
             width: 2,
           ),
