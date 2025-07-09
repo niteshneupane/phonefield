@@ -32,6 +32,8 @@ class MainApp extends HookWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: PhoneField(
                   // isEnabled: false,
+                  authToken: "YOUR_AUTH_TOKEN_HERE",
+
                   initialPhoneNumber: "+9779817194337",
                   onChanged: (p0) {},
                 ),
@@ -86,7 +88,10 @@ class MainApp extends HookWidget {
               FilledButton(
                 onPressed: () async {
                   if (formKey.currentState?.validate() ?? false) {
-                    var phone = await PhoneField.getPhoneNumber("+16465006465");
+                    var phone = await PhoneField.getPhoneNumber(
+                      "+16465006465",
+                      authToken: "YOUR_AUTH_TOKEN_HERE",
+                    );
                     if (phone != null && phone.isValid == false) {
                       log(phone.message.toString());
                       return;

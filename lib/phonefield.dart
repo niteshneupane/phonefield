@@ -44,6 +44,7 @@ class PhoneField extends StatefulWidget {
     this.errorStyle,
     this.errorMaxlines,
     this.validator,
+    required this.authToken,
   });
 
   ///
@@ -108,39 +109,46 @@ class PhoneField extends StatefulWidget {
   final int? errorMaxlines;
 
   ///
+  final String authToken;
+
+  ///
   final String? Function(String?)? validator;
 
   @override
   State<PhoneField> createState() => _PhoneFieldState();
 
   ///
-  static Future<PhoneModel?> getPhoneNumber(String pp) async {
+  static Future<PhoneModel?> getPhoneNumber(
+    String pp, {
+    required String authToken,
+  }) async {
     try {
       log("Checking for phone number $pp");
       var dio = Dio();
-      final resp = await dio.get(
-        "https://phonenumberutils.gorkhacloud.com/phonenumberdetails",
+      final resp = await dio.post(
+        "https://payment.atozdispatch.com/validate-phone",
         options: Options(
+          headers: {"Authorization": "Bearer $authToken"},
           receiveTimeout: const Duration(seconds: 2),
           sendTimeout: const Duration(seconds: 2),
         ),
-        queryParameters: {
-          "phoneNumber": pp,
-        },
+        data: FormData.fromMap({
+          "phone": pp,
+        }),
       );
-      var data = resp.data["data"];
-      log("object ${resp.statusCode}");
+      var data = resp.data;
+      log("object $data");
 
       if (resp.statusCode == 200) {
         log("\x1B[32m SUCCESSSSSS \x1B[0m");
         return PhoneModel(
-          name: data["region"] ?? "",
-          isValid: data["isValid"],
-          flag: data["flag"] ?? "",
-          countryCode: data["regionCode"] ?? "",
-          dialCode: "+${data["countryCode"]}",
-          phoneNumber: data["nationalMobileNumber"] ?? "",
-          message: data["informationalMessage"] ?? "-",
+          name: data?["name"] ?? "",
+          isValid: data?["isValid"] ?? false,
+          flag: "${data?["countryCode"] ?? ""}".emoji,
+          countryCode: data?["countryCode"] ?? "",
+          dialCode: "${data?["dialCode"] ?? ""}",
+          phoneNumber: data["phoneNumber"] ?? "",
+          message: data["message"] ?? "-",
         );
       }
       return null;
@@ -184,7 +192,10 @@ class _PhoneFieldState extends State<PhoneField> {
   }
 
   Future<void> phoneNumberAndCode() async {
-    var dd = await PhoneField.getPhoneNumber(widget.initialPhoneNumber!);
+    var dd = await PhoneField.getPhoneNumber(
+      widget.initialPhoneNumber!,
+      authToken: widget.authToken,
+    );
     if (dd?.isValid ?? false) {
       selectedCountry.value = CountriesModel(
         id: "",

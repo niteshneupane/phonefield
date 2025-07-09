@@ -23,7 +23,7 @@ To use this package, add `phonefield` to your `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  phonefield: ^1.0.3
+  phonefield: ^1.0.4
 ```
 
 

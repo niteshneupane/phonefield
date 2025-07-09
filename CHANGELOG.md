@@ -62,3 +62,6 @@
 
 ## 1.0.3
 * dark theme support
+
+## 1.0.4
+* api changed
